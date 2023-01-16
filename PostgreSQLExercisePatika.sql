@@ -379,3 +379,42 @@ FROM customer
 INNER JOIN payment ON payment.customer_id = customer.customer_id
 GROUP BY payment.customer_id, customer.first_name, customer.last_name
 ORDER BY COUNT(payment.customer_id) DESC;
+
+-- GENEL TEKRAR --
+/*
+film tablosundan 'K' karakteri ile başlayan en uzun ve replacenet_cost u en düşük 4 filmi sıralayınız.
+film tablosunda içerisinden en fazla sayıda film bulunduran rating kategorisi hangisidir?
+cutomer tablosunda en çok alışveriş yapan müşterinin adı nedir?
+category tablosundan kategori isimlerini ve kategori başına düşen film sayılarını sıralayınız.
+film tablosunda isminde en az 4 adet 'e' veya 'E' karakteri bulunan kç tane film vardır?
+*/
+
+--1
+SELECT title, length, replacement_cost FROM film
+WHERE title LIKE 'K%'
+ORDER BY length DESC, replacement_cost ASC
+LIMIT 4;
+
+--2
+SELECT rating, COUNT(rating) FROM film
+GROUP BY rating
+ORDER BY rating DESC
+LIMIT 1;
+
+--3
+SELECT first_name, second_name, COUNT(first_name) FROM customer
+GROUP BY first_name, second_name
+ORDER BY COUNT(first_name) DESC
+LIMIT 1;
+
+--4
+SELECT payment.customer_id, customer.first_name, customer.last_name, COUNT(payment.customer_id) FROM customer
+JOIN payment ON payment.customer_id = customer.customer_id
+GROUP BY payment.customer_id, customer.first_name, customer.last_name
+ORDER BY COUNT(payment.customer_id) DESC
+LIMIT 1;
+
+--5
+SELECT COUNT(title) FROM film
+WHERE title ILIKE '%e%e%e%e%';
+
